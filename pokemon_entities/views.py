@@ -70,20 +70,20 @@ def show_pokemon(request, pokemon_id):
             request.build_absolute_uri(requested_pokemon.photo.url)
         )
 
-    if requested_pokemon.parent:
+    if requested_pokemon.previous_evolution:
         previous_evolution = {
-            'title_ru': requested_pokemon.parent.title,
-            'pokemon_id': requested_pokemon.parent.id,
-            'img_url': request.build_absolute_uri(requested_pokemon.parent.photo.url)
+            'title_ru': requested_pokemon.previous_evolution.title,
+            'pokemon_id': requested_pokemon.previous_evolution.id,
+            'img_url': request.build_absolute_uri(requested_pokemon.previous_evolution.photo.url)
         }
     else:
         previous_evolution = None
 
-    if requested_pokemon.evolutions.first():
+    if requested_pokemon.next_evolution.first():
         next_evolution = {
-            'title_ru': requested_pokemon.evolutions.first().title,
-            'pokemon_id': requested_pokemon.evolutions.first().id,
-            'img_url': request.build_absolute_uri(requested_pokemon.evolutions.first().photo.url)
+            'title_ru': requested_pokemon.next_evolution.first().title,
+            'pokemon_id': requested_pokemon.next_evolution.first().id,
+            'img_url': request.build_absolute_uri(requested_pokemon.next_evolution.first().photo.url)
         }
     else:
         next_evolution = None
