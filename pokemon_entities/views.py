@@ -33,11 +33,12 @@ def get_current_time(zone='Europe/Moscow'):
 
 def show_all_pokemons(request): 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    pokemons_entities = PokemonEntity.objects.filter(appeared_at__lt=get_current_time(), 
-        disappeared_at__gt=get_current_time())
+    current_time = get_current_time();
+    pokemons_entities = PokemonEntity.objects.filter(appeared_at__lt=current_time, 
+        disappeared_at__gt=current_time)
     for pokemon_entity in pokemons_entities:
         add_pokemon(
-            folium_map, pokemon_entity.latttude,
+            folium_map, pokemon_entity.latitude,
             pokemon_entity.longitude,
             request.build_absolute_uri(pokemon_entity.pokemon.photo.url)
         )       
@@ -59,17 +60,16 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     requested_pokemon = get_object_or_404(Pokemon,id=pokemon_id)
-   
-    pokemons_entities = PokemonEntity.objects.filter(pokemon=requested_pokemon,appeared_at__lt=get_current_time(), 
-        disappeared_at__gt=get_current_time())
+    current_time = get_current_time();
+    pokemons_entities = PokemonEntity.objects.filter(pokemon=requested_pokemon,appeared_at__lt=current_time, 
+        disappeared_at__gt=current_time)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
         add_pokemon(
-            folium_map, pokemon_entity.latttude,
+            folium_map, pokemon_entity.latitude,
             pokemon_entity.longitude,
             request.build_absolute_uri(requested_pokemon.photo.url)
         )
-
     if requested_pokemon.previous_evolution:
         previous_evolution = {
             'title_ru': requested_pokemon.previous_evolution.title,
