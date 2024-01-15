@@ -1,7 +1,7 @@
 from django.db import models 
 
 class Pokemon(models.Model):
-    title = models.TextField(verbose_name = "имя покемона")
+    title = models.CharField(max_length=64,verbose_name = "имя покемона")
     parent = models.ForeignKey(
         'self', 
         on_delete=models.SET_NULL, 
@@ -10,8 +10,8 @@ class Pokemon(models.Model):
         blank=True, 
         related_name='evolutions'
     )
-    title_en = models.TextField(verbose_name = "имя покемона на английском",blank=True)
-    title_jp = models.TextField(verbose_name = "имя покемона на японском",blank=True)
+    title_en = models.CharField(max_length=64,verbose_name = "имя покемона на английском",blank=True)
+    title_jp = models.CharField(max_length=64,verbose_name = "имя покемона на японском",blank=True)
     photo = models.ImageField(verbose_name = "фото покемона")
     description = models.TextField(verbose_name = "описание покемона",blank=True)  
 
