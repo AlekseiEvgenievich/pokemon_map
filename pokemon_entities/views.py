@@ -73,24 +73,22 @@ def show_pokemon(request, pokemon_id):
         )
 
     parent_pokemon = requested_pokemon.previous_evolution
+    previous_evolution = None
     if parent_pokemon:
         previous_evolution = {
             'title_ru': parent_pokemon.title,
             'pokemon_id': parent_pokemon.id,
             'img_url': request.build_absolute_uri(parent_pokemon.photo.url)
         }
-    else:
-        previous_evolution = None
 
-    child_pokemon = requested_pokemon.next_evolution.first()
+    child_pokemon = requested_pokemon.next_evolutions.first()
+    next_evolution = None
     if child_pokemon:
         next_evolution = {
             'title_ru': child_pokemon.title,
             'pokemon_id': child_pokemon.id,
             'img_url': request.build_absolute_uri(child_pokemon.photo.url)
         }
-    else:
-        next_evolution = None
 
     pokemons_on_page = {
         'pokemon_id': pokemon_id,
